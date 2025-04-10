@@ -1,22 +1,213 @@
-<!-- predictor/templates/predictor/form.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>CKD Prediction Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h2>Chronic Kidney Disease Prediction</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in fields %}
-            <label>{{ field }}:</label>
-            <input type="text" name="{{ field }}" required><br><br>
-        {% endfor %}
-        <button type="submit">Predict</button>
-    </form>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold">CKD Prediction</a>
+            <div class="space-x-4">
+                <a href="/" class="hover:text-blue-200 transition">Home</a>
+                <a href="#" class="hover:text-blue-200 transition">About</a>
+                <a href="#" class="hover:text-blue-200 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-    {% if result %}
-        <h3>Result: {{ result }}</h3>
-    {% endif %}
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Chronic Kidney Disease Prediction</h2>
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Personal Information -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Age (years)</label>
+                        <input type="number" name="age" min="0" max="120" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Blood Pressure (mm Hg)</label>
+                        <input type="number" name="bp" min="0" max="200" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <!-- Urine Analysis -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Specific Gravity (1.005-1.025)</label>
+                        <input type="number" name="sg" min="1.005" max="1.025" step="0.001" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Albumin (0-5)</label>
+                        <input type="number" name="al" min="0" max="5" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Sugar (0-5)</label>
+                        <input type="number" name="su" min="0" max="5" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <!-- Blood Cells -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Red Blood Cells</label>
+                        <select name="rbc" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">Normal</option>
+                            <option value="1">Abnormal</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Pus Cells</label>
+                        <select name="pc" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">Normal</option>
+                            <option value="1">Abnormal</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Pus Cell Clumps</label>
+                        <select name="pcc" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">Not Present</option>
+                            <option value="1">Present</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Bacteria</label>
+                        <select name="ba" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">Not Present</option>
+                            <option value="1">Present</option>
+                        </select>
+                    </div>
+
+                    <!-- Blood Chemistry -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Blood Glucose Random (mg/dl)</label>
+                        <input type="number" name="bgr" min="0" max="500" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Blood Urea (mg/dl)</label>
+                        <input type="number" name="bu" min="0" max="500" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Serum Creatinine (mg/dl)</label>
+                        <input type="number" name="sc" min="0" max="50" step="0.1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Sodium (mEq/L)</label>
+                        <input type="number" name="sod" min="0" max="200" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Potassium (mEq/L)</label>
+                        <input type="number" name="pot" min="0" max="50" step="0.1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Hemoglobin (gms)</label>
+                        <input type="number" name="hemo" min="0" max="20" step="0.1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Packed Cell Volume</label>
+                        <input type="number" name="pcv" min="0" max="100" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">White Blood Cells (cells/cumm)</label>
+                        <input type="number" name="wc" min="0" max="20000" step="1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Red Blood Cells (millions/cmm)</label>
+                        <input type="number" name="rc" min="0" max="10" step="0.1" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <!-- Medical History -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Hypertension</label>
+                        <select name="htn" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Diabetes Mellitus</label>
+                        <select name="dm" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Coronary Artery Disease</label>
+                        <select name="cad" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Appetite</label>
+                        <select name="appet" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">Poor</option>
+                            <option value="1">Good</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Pedal Edema</label>
+                        <select name="pe" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Anemia</label>
+                        <select name="ane" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-300">
+                        Predict
+                    </button>
+                </div>
+            </form>
+
+            {% if result %}
+            <div class="mt-6 p-4 {% if 'Not' in result %}bg-green-50 border-green-500{% else %}bg-red-50 border-red-500{% endif %} border-l-4 rounded">
+                <h3 class="text-lg font-semibold text-gray-800">Prediction Result:</h3>
+                <p class="text-gray-700 mt-1 font-medium">{{ result }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>

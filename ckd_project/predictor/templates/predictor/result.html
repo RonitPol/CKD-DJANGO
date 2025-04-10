@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold">CKD Prediction</a>
+            <div class="space-x-4">
+                <a href="/" class="hover:text-blue-200 transition">New Prediction</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <div class="bg-white rounded-lg shadow-md p-6 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Prediction Result</h2>
+            
+            {% if error %}
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                    <h3 class="text-lg font-semibold text-red-800">Error:</h3>
+                    <p class="text-red-700">{{ error }}</p>
+                </div>
+            {% endif %}
+
+            {% if result %}
+                <div class="text-center">
+                    <div class="{% if 'Not' in result %}bg-green-100{% else %}bg-red-100{% endif %} p-6 rounded-lg">
+                        <span class="text-4xl">{% if 'Not' in result %}✅{% else %}⚠️{% endif %}</span>
+                        <h3 class="text-xl font-bold mt-4 mb-2">
+                            {{ result }}
+                        </h3>
+                        <p class="text-gray-600">
+                            {% if 'Not' in result %}
+                                Low Probability of Chronic Kidney Disease
+                            {% else %}
+                                Consult A Doctor For Chronic Kidney Disease
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="mt-8">
+                        <a href="/" 
+                           class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+                            Make New Prediction
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if not result and not error %}
+                <div class="text-center text-gray-600">
+                    <p>No prediction results found.</p>
+                    <a href="/" class="text-blue-600 hover:underline mt-4 inline-block">
+                        Return to Prediction Form
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
